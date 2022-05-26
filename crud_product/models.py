@@ -5,3 +5,4 @@ class Product(models.Model):
     nama = models.CharField(max_length = 250)
     harga = models.IntegerField()
     deskripsi = models.TextField()
+    gambar = models.ImageField(upload_to="produk/")
