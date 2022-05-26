@@ -3,10 +3,22 @@ from rest_framework import generics
 from .serializers import ProductSerializer
 from .models import Product
 from rest_framework.response import Response
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+ 
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 
 class ProductList(generics.ListCreateAPIView):
-    queryset =  Product.objects.all()
     serializer_class = ProductSerializer
+
+    def get_queryset():
+        if 'product' in cache:
+            return cache.get('product')
+        else:
+            result = Product.objects.all()
+            cache.set(product, result, timeout=CACHE_TTL)
+            return result
 
     def create(self, request,  *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

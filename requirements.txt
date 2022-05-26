@@ -16,3 +16,4 @@ psycopg2-binary==2.8.5
 whitenoise==4.1.4
 django-cors-headers
 django-cloudinary-storage
+django-redis
