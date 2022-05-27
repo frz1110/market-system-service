@@ -12,12 +12,16 @@ CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
 class ProductList(generics.ListCreateAPIView):
     serializer_class = ProductSerializer
 
-    def get_queryset():
+
+    def get_queryset(self):
+        
         if 'product' in cache:
+            print('cache')
             return cache.get('product')
         else:
+            print('nocache')
             result = Product.objects.all()
-            cache.set(product, result, timeout=CACHE_TTL)
+            cache.set('product', result)
             return result
 
     def create(self, request,  *args, **kwargs):

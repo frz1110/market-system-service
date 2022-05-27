@@ -111,9 +111,12 @@ CORS_ALLOW_ALL_ORIGINS = True
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/',
+        'LOCATION': 'rediss://:peef42a262c492d06f032ec620d740c8ac2a1f6df0ca5bac16c45262e55f1fcee@ec2-52-55-13-251.compute-1.amazonaws.com:12240',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            "CONNECTION_POOL_KWARGS": {
+                "ssl_cert_reqs": None
+            },
         }
     }
 }
