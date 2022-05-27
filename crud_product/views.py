@@ -20,7 +20,7 @@ class ProductList(generics.ListCreateAPIView):
         else:
             print('nocache')
             result = Product.objects.all()
-            cache.set('product', result, 300)
+            cache.set('product', result, timeout=CACHE_TTL)
             return result
 
     def create(self, request,  *args, **kwargs):
